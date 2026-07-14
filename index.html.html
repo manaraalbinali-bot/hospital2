@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETHERIS - Advanced Healthcare & Quantum Medical Institute</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        deepPurple: '#5B21B6',
+                        blackBg: '#050505',
+                        darkViolet: '#2D1B69',
+                        softPurple: '#A855F7',
+                        neonGlow: '#c084fc'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Premium CSS Styling & Animation Properties */
+        :root {
+            --purple-glow: rgba(168, 85, 247, 0.4);
+            --glass-bg: rgba(15, 10, 30, 0.65);
+            --glass-border: rgba(168, 85, 247, 0.2);
+        }
+
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* Custom premium scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050505;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #5B21B6;
+            border-radius: 10px;
+            border: 2px solid #050505;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #A855F7;
+        }
+
+        /* Ambient glowing circles */
+        .ambient-glow {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(91, 33, 182, 0.3) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(40px);
+        }
+
+        /* Custom Interactive Glassmorphism */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-panel:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 8px 32px 0 rgba(168, 85, 247, 0.15);
+        }
+
+        /* 3D Premium Card Hover Physics */
+        .card-perspective {
+            perspective: 1000px;
+        }
+
+        .tilt-card {
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+            transform-style: preserve-3d;
+        }
+
+        /* Beautiful pulses & waveforms */
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); opacity: 0.5; filter: drop-shadow(0 0 5px rgba(168, 85, 247, 0.6)); }
+            50% { transform: scale(1.08); opacity: 1; filter: drop-shadow(0 0 15px rgba(168, 85, 247, 0.9)); }
+        }
+
+        .heart-pulse {
+            animation: pulse-glow 2s infinite ease-in-out;
+        }
+
+        /* Cursor Glow Element */
+        #cursor-glow {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s ease, height 0.3s ease;
+            mix-blend-mode: screen;
+        }
+
+        /* Hero Text Gradient Animation */
+        .text-gradient-animate {
+            background: linear-gradient(to right, #ffffff, #c084fc, #5B21B6, #ffffff);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradient-shift 8s linear infinite;
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Custom Active Underline Nav Animation */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #A855F7;
+            transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: 0 0 8px #c084fc;
+        }
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* 3D button premium hover */
+        .btn-3d {
+            transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-3d::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: all 0.6s;
+        }
+        .btn-3d:hover::before {
+            left: 100%;
+        }
+        .btn-3d:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 10px 20px rgba(168, 85, 247, 0.3);
+        }
+
+        /* Animation utilities */
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-element.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Glowing Medical Cross Spinning Frame */
+        .cross-spinner {
+            animation: rotateCross 20s linear infinite;
+        }
+        @keyframes rotateCross {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-blackBg text-white antialiased">
+
+    <div id="cursor-glow"></div>
+
+    <div class="fixed top-0 left-0 w-full h-full -z-50 opacity-60">
+        <canvas id="threejs-background"></canvas>
+    </div>
+
+    <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300 glass-panel border-b border-white/5 py-4 px-6 md:px-12 flex justify-between items-center" id="main-header">
+        <a href="#" class="flex items-center gap-3 group">
+            <div class="relative w-10 h-10 flex items-center justify-center rounded-lg bg-deepPurple border border-softPurple/30 group-hover:scale-110 transition duration-300">
+                <i class="fa-solid fa-house-laptop text-white absolute text-lg"></i>
+                <i class="fa-solid fa-circle-notch text-softPurple absolute text-2xl animate-spin" style="animation-duration: 4s;"></i>
+            </div>
+            <span class="font-display font-extrabold text-2xl tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-300 to-softPurple">AETHERIS</span>
+        </a>
+
+        <button id="menu-btn" class="text-white text-2xl lg:hidden focus:outline-none relative z-50" aria-label="Toggle Menu">
+            <i class="fa-solid fa-bars transition-all duration-300" id="menu-icon"></i>
+        </button>
+
+        <nav id="navbar" class="hidden lg:flex flex-col lg:flex-row absolute lg:relative top-full left-0 w-full lg:w-auto bg-blackBg/95 lg:bg-transparent border-b border-white/10 lg:border-none py-6 lg:py-0 px-8 lg:px-0 gap-6 lg:gap-8 items-start lg:items-center font-medium transition-all duration-300">
+            <a href="#" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Home</a>
+            <a href="#about" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">About</a>
+            <a href="#departments" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Departments</a>
+            <a href="#doctors" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Doctors</a>
+            <a href="#services" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Services</a>
+            <a href="#gallery" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Gallery</a>
+            <a href="#testimonials" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Reviews</a>
+            <a href="#careers" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Careers</a>
+            <a href="#contact" class="nav-link text-white/80 hover:text-white transition duration-300 py-1">Contact</a>
+            <a href="#appointment" class="btn-3d px-5 py-2.5 bg-gradient-to-r from-deepPurple to-softPurple rounded-full text-sm font-semibold tracking-wider hover:brightness-110 flex items-center gap-2">
+                <i class="fa-solid fa-calendar-check"></i> Book Call
+            </a>
+        </nav>
+    </header>
+
+    <section class="relative min-h-screen flex items-center justify-center pt-32 pb-20 px-6 md:px-12 overflow-hidden">
+        <div class="ambient-glow -top-20 -left-20"></div>
+        <div class="ambient-glow bottom-0 right-0" style="background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, rgba(0,0,0,0) 70%);"></div>
+
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center relative z-10 w-full">
+            <div class="lg:col-span-6 flex flex-col items-start text-left space-y-6">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-panel border border-softPurple/30 text-xs font-semibold uppercase tracking-wider text-softPurple">
+                    <span class="w-2 h-2 rounded-full bg-softPurple animate-ping"></span> Quantum Medical Excellence
+                </div>
+                <h1 class="font-display font-black text-4xl sm:text-5xl xl:text-6xl tracking-tight leading-none">
+                    <span class="text-gradient-animate">Advanced Healthcare</span><br>
+                    <span class="text-white">for a Better Tomorrow</span>
+                </h1>
+                <p class="text-gray-300 text-lg max-w-xl leading-relaxed font-light">
+                    Providing exceptional medical care with cutting-edge innovations, unparalleled compassion, and worldwide excellence. Experience the future of diagnostic healing.
+                </p>
+                <div class="flex flex-wrap gap-4 pt-4 w-full sm:w-auto">
+                    <a href="#appointment" class="btn-3d px-8 py-4 bg-gradient-to-r from-deepPurple to-softPurple rounded-full text-base font-bold tracking-wide shadow-lg shadow-deepPurple/50 hover:brightness-110 flex items-center justify-center gap-3 w-full sm:w-auto">
+                        <i class="fa-regular fa-calendar-check text-lg"></i> Book Appointment
+                    </a>
+                    <a href="tel:+18005550199" class="btn-3d px-8 py-4 bg-white/5 border border-red-500/30 hover:border-red-500/60 rounded-full text-base font-bold tracking-wide text-red-400 hover:bg-red-950/20 flex items-center justify-center gap-3 w-full sm:w-auto">
+                        <i class="fa-solid fa-truck-medical text-lg animate-pulse"></i> Emergency 24/7
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-3 gap-6 pt-10 border-t border-white/10 w-full max-w-md">
+                    <div>
+                        <h4 class="font-display font-extrabold text-3xl text-softPurple">99.8%</h4>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Success Rate</p>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-extrabold text-3xl text-softPurple">150+</h4>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">AI Diagnostics</p>
+                    </div>
+                    <div>
+                        <h4 class="font-display font-extrabold text-3xl text-softPurple">15 min</h4>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest mt-1">Avg. Dispatch</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-6 relative w-full h-[350px] sm:h-[500px] flex justify-center items-center">
+                <div class="absolute w-full h-full max-w-[450px]">
+                    <div class="absolute top-[40%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-48 h-48 rounded-full glass-panel border border-softPurple/40 flex items-center justify-center heart-pulse shadow-[0_0_50px_rgba(168,85,247,0.3)] z-20">
+                        <i class="fa-solid fa-heart-pulse text-6xl text-softPurple"></i>
+                    </div>
+
+                    <div class="absolute top-10 left-10 p-4 rounded-2xl glass-panel flex items-center gap-3 shadow-lg transform hover:-translate-y-2 transition duration-300 animate-bounce" style="animation-duration: 6s;">
+                        <div class="w-10 h-10 rounded-xl bg-purple-900/50 flex items-center justify-center border border-softPurple/30">
+                            <i class="fa-solid fa-dna text-softPurple text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">DNA Analysis</p>
+                            <p class="text-xs font-bold">Quantum Sequenced</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-10 right-4 p-4 rounded-2xl glass-panel flex items-center gap-3 shadow-lg transform hover:-translate-y-2 transition duration-300 animate-bounce" style="animation-duration: 8s;">
+                        <div class="w-10 h-10 rounded-xl bg-purple-900/50 flex items-center justify-center border border-softPurple/30">
+                            <i class="fa-solid fa-brain text-softPurple text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-bold">Neural Link</p>
+                            <p class="text-xs font-bold">AI Active diagnostics</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute top-1/2 -right-8 p-3 rounded-xl glass-panel flex items-center justify-center border border-softPurple/20 animate-spin" style="animation-duration: 25s;">
+                        <i class="fa-solid fa-atom text-4xl text-softPurple/60"></i>
+                    </div>
+
+                    <div class="absolute bottom-12 left-2 p-3 rounded-xl glass-panel flex items-center justify-center border border-softPurple/20">
+                        <i class="fa-solid fa-droplet text-2xl text-red-500 animate-pulse"></i>
+                    </div>
+                </div>
+                
+                <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-transparent to-transparent z-10 pointer-events-none"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="py-24 relative px-6 md:px-12">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            <div class="lg:col-span-5 relative flex justify-center py-8">
+                <div class="relative w-80 h-80 flex items-center justify-center">
+                    <div class="absolute inset-0 rounded-full border-2 border-dashed border-softPurple/30 cross-spinner"></div>
+                    <div class="absolute w-72 h-72 rounded-full border border-softPurple/10 flex items-center justify-center">
+                        <div class="absolute w-60 h-60 rounded-full glass-panel flex items-center justify-center">
+                            <div class="absolute w-48 h-48 rounded-full bg-deepPurple/10 flex items-center justify-center">
+                                <i class="fa-solid fa-circle-h text-[120px] text-softPurple/40"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-8 h-8 rounded-full bg-softPurple flex items-center justify-center shadow-lg shadow-softPurple/50 animate-bounce">
+                        <i class="fa-solid fa-virus-slash text-white text-xs"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 space-y-6 reveal-element">
+                <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-softPurple">
+                    <i class="fa-solid fa-circle text-[6px]"></i> Global Standards of Innovation
+                </div>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Pioneering Future Medicine with Compassionate Care</h2>
+                <p class="text-gray-300 leading-relaxed font-light text-base">
+                    Established with a grand vision of synthesizing futuristic biotechnology with empathetic healthcare delivery, Aetheris Medical Center stands as a beacon of modern healing. We host the world's finest specialists integrated with quantum diagnostic systems to identify, treat, and completely rejuvenate our patients.
+                </p>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6">
+                    <div class="p-4 rounded-2xl glass-panel text-center hover:scale-105 transition-all">
+                        <div class="text-2xl font-bold font-display text-softPurple" data-count="50000">0</div>
+                        <div class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Patients Served</div>
+                    </div>
+                    <div class="p-4 rounded-2xl glass-panel text-center hover:scale-105 transition-all">
+                        <div class="text-2xl font-bold font-display text-softPurple" data-count="240">0</div>
+                        <div class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Super Specialists</div>
+                    </div>
+                    <div class="p-4 rounded-2xl glass-panel text-center hover:scale-105 transition-all">
+                        <div class="text-2xl font-bold font-display text-softPurple" data-count="98">0</div>
+                        <div class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Care Awards</div>
+                    </div>
+                    <div class="p-4 rounded-2xl glass-panel text-center hover:scale-105 transition-all">
+                        <div class="text-2xl font-bold font-display text-softPurple" data-count="15">0</div>
+                        <div class="text-[10px] text-gray-400 uppercase tracking-widest mt-1">Global Branches</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="departments" class="py-24 relative bg-gradient-to-b from-transparent to-blackBg/80 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
+                <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-softPurple mb-2">
+                    <i class="fa-solid fa-microscope"></i> Specialized Divisions
+                </div>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Explore our Elite Specialty Centers</h2>
+                <p class="text-gray-400 text-sm mt-2 font-light">Each division is equipped with ultra-modern instrumentation and guided by veteran physician leaders.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 card-perspective">
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px]" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Cardiology</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Comprehensive analysis, robotic bypass care, and vascular wellness programs.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px]" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-brain"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Neurology</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Neuro-reconstructive surgery, cognitive care, and memory enhancement.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px]" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-baby"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Pediatrics</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Empathetic pediatric diagnostics, immunizations, and child development diagnostics.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px]" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-bone"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Orthopedics</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Spinal stabilization, joint replacement therapeutics, and sports recovery protocols.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px]" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-radiation"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Radiology</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Quantum MRI scanning, volumetric CT reconstructions, and molecular imaging.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px] lg:mt-6" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-dna"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Oncology</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Targeted immunotherapy, nanite oncology, and clinical research trials.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px] lg:mt-6" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-kit-medical"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Emergency</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Instant trauma resuscitation, acute cardiac therapies, and airlift facilities.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px] lg:mt-6" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Surgery</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Minimally invasive keyhole and hyperbaric surgical theatres.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px] lg:mt-6" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-sparkles"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Dermatology</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Laser skin remodeling, immunological cellular diagnostics, and cosmetic surgery.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+
+                <div class="tilt-card glass-panel rounded-3xl p-6 flex flex-col justify-between group cursor-pointer hover:border-softPurple/50 relative overflow-hidden h-[300px] lg:mt-6" onmousemove="handleTilt(event, this)" onmouseleave="resetTilt(this)">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-softPurple/10 to-transparent rounded-bl-full pointer-events-none transition-all group-hover:scale-110"></div>
+                    <div>
+                        <div class="w-12 h-12 rounded-2xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-xl mb-6 group-hover:bg-softPurple group-hover:text-black transition-all duration-300">
+                            <i class="fa-solid fa-hospital-user"></i>
+                        </div>
+                        <h3 class="font-display font-bold text-lg mb-2 group-hover:text-softPurple transition duration-300">Intensive ICU</h3>
+                        <p class="text-xs text-gray-400 leading-relaxed font-light">Continuous micro-metric physiological scanning and AI life support systems.</p>
+                    </div>
+                    <span class="text-xs text-softPurple font-semibold group-hover:underline flex items-center gap-2 mt-4">Discover More <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="doctors" class="py-24 px-6 md:px-12 relative overflow-hidden">
+        <div class="ambient-glow top-[30%] -right-[20%]"></div>
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
+                <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-softPurple mb-2">
+                    <i class="fa-solid fa-user-doctor"></i> Medical Board Leaders
+                </div>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Meet our World-Class Specialists</h2>
+                <p class="text-gray-400 text-sm mt-2 font-light">Distinguished experts specializing in life-saving modern paradigms.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.25)] border border-white/5 hover:border-softPurple/50">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&q=80&w=600" alt="Dr. Elena Rostova" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="px-2.5 py-1 rounded bg-deepPurple/80 text-[10px] uppercase font-bold tracking-widest text-white backdrop-blur">PhD, Harvard</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl group-hover:text-softPurple transition duration-300">Dr. Elena Rostova</h3>
+                        <p class="text-xs text-softPurple font-semibold mt-1">Chief Neural Surgeon</p>
+                        <p class="text-xs text-gray-400 mt-2 font-light">15+ Years Experience in bio-reconstructive surgery.</p>
+                        <div class="flex gap-4 mt-5 pt-4 border-t border-white/5 text-gray-400 group-hover:text-white transition duration-300">
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-researchgate"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-regular fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.25)] border border-white/5 hover:border-softPurple/50">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&q=80&w=600" alt="Dr. Marcus Vance" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="px-2.5 py-1 rounded bg-deepPurple/80 text-[10px] uppercase font-bold tracking-widest text-white backdrop-blur">MD, Oxford</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl group-hover:text-softPurple transition duration-300">Dr. Marcus Vance</h3>
+                        <p class="text-xs text-softPurple font-semibold mt-1">Director of Cardiology</p>
+                        <p class="text-xs text-gray-400 mt-2 font-light">18+ Years of breakthrough cardiology research.</p>
+                        <div class="flex gap-4 mt-5 pt-4 border-t border-white/5 text-gray-400 group-hover:text-white transition duration-300">
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-researchgate"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-regular fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.25)] border border-white/5 hover:border-softPurple/50">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://images.unsplash.com/photo-1594824813573-246434de83fb?auto=format&fit=crop&q=80&w=600" alt="Dr. Sarah Jenkins" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="px-2.5 py-1 rounded bg-deepPurple/80 text-[10px] uppercase font-bold tracking-widest text-white backdrop-blur">PhD, Stanford</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl group-hover:text-softPurple transition duration-300">Dr. Sarah Jenkins</h3>
+                        <p class="text-xs text-softPurple font-semibold mt-1">Nanomedicine Specialist</p>
+                        <p class="text-xs text-gray-400 mt-2 font-light">12+ Years developing automated diagnostic platforms.</p>
+                        <div class="flex gap-4 mt-5 pt-4 border-t border-white/5 text-gray-400 group-hover:text-white transition duration-300">
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-researchgate"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-regular fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass-panel rounded-3xl overflow-hidden group transition-all duration-500 hover:shadow-[0_0_40px_rgba(168,85,247,0.25)] border border-white/5 hover:border-softPurple/50">
+                    <div class="relative overflow-hidden h-72">
+                        <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&q=80&w=600" alt="Dr. Kenji Takahashi" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 group-hover:rotate-1">
+                        <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent"></div>
+                        <div class="absolute bottom-4 left-4 flex gap-2">
+                            <span class="px-2.5 py-1 rounded bg-deepPurple/80 text-[10px] uppercase font-bold tracking-widest text-white backdrop-blur">MD, Tokyo Inst</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="font-display font-bold text-xl group-hover:text-softPurple transition duration-300">Dr. Kenji Takahashi</h3>
+                        <p class="text-xs text-softPurple font-semibold mt-1">Director of Oncology</p>
+                        <p class="text-xs text-gray-400 mt-2 font-light">20+ Years pioneering dynamic cellular immunotherapies.</p>
+                        <div class="flex gap-4 mt-5 pt-4 border-t border-white/5 text-gray-400 group-hover:text-white transition duration-300">
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-brands fa-researchgate"></i></a>
+                            <a href="#" class="hover:text-softPurple transition"><i class="fa-regular fa-envelope"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-24 bg-blackBg/60 relative px-6 md:px-12 border-t border-white/5">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
+                <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-softPurple mb-2">
+                    <i class="fa-solid fa-hand-holding-heart"></i> Comprehensive Care Systems
+                </div>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Medical Services Designed for Life</h2>
+                <p class="text-gray-400 text-sm mt-2 font-light">Advanced clinical services engineered to maintain rapid health rehabilitation.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-truck-medical animate-pulse"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Emergency Dispatch</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">24-hour smart responsive ambulance units dispatch within minutes.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Online Consultation</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Instantly reach board doctors virtually from your secure portal.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-prescription-bottle-medical"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Quantum Pharmacy</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">High-efficiency genomic medicine fabrication and synthesis on demand.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-vials"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Clinical Laboratory</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Automated rapid diagnostic profiling and dynamic metabolic screenings.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-circle-notch animate-spin" style="animation-duration: 8s;"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Dynamic MRI Scan</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">High-definition tissue scans mapping neural pathways in 4D.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Robotic CT Scanning</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Ultra-low radiation density volumetric bone analysis with AI.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-syringe"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Vaccinations</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Adaptive personalized immunizations responding to novel mutations.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-helicopter"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Air Ambulance</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Autonomous trauma medical helicopters navigating directly to helipads.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-house-chimney-medical"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Home Care Portals</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Continuous telehealth monitoring devices directly tracking at-home vital signs.</p>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl transition duration-300 hover:translate-y-[-5px] hover:border-softPurple/40 group">
+                    <div class="w-10 h-10 rounded-xl bg-purple-950/40 border border-softPurple/20 flex items-center justify-center text-softPurple text-lg mb-4 group-hover:scale-110 transition duration-300">
+                        <i class="fa-solid fa-person-walking-rehab"></i>
+                    </div>
+                    <h3 class="font-bold text-base mb-1">Biophysio Recovery</h3>
+                    <p class="text-xs text-gray-400 font-light leading-relaxed">Exoskeleton rehabilitation, neural-kinetic muscle training therapies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="py-24 px-6 md:px-12 relative">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-16 reveal-element">
+                <div class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-softPurple mb-2">
+                    <i class="fa-solid fa-panorama"></i> Visual Tour
+                </div>
+                <h2 class="font-display font-extrabold text-3xl sm:text-4xl">Step Inside our Modern Sanctuary</h2>
+                <p class="text-gray-400 text-sm mt-2 font-light">Interactive architectural glimpse within our clinical operating complexes and diagnostic rooms.</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="masonry-gallery">
+                <div class="relative overflow-hidden rounded-3xl glass-panel group cursor-pointer border border-white/5 hover:border-softPurple/40 h-80" onclick="openLightbox('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=1200', 'Modern Patient Recovery Lounge')">
+                    <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&q=80&w=600" alt="Patient Room" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent opacity-85"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="text-xs font-semibold text-softPurple uppercase tracking-widest">Premium Lounges</span>
+                        <h4 class="font-display font-bold text-lg text-white mt-1">Patient Sanctuary Room</h4>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-3xl glass-panel group cursor-pointer border border-white/5 hover:border-softPurple/40 h-80" onclick="openLightbox('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=1200', 'Ultra-clean Robotic Laboratory')">
+                    <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&q=80&w=600" alt="Clinical Lab" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent opacity-85"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="text-xs font-semibold text-softPurple uppercase tracking-widest">Diagnostics</span>
+                        <h4 class="font-display font-bold text-lg text-white mt-1">Molecular Testing Laboratory</h4>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-3xl glass-panel group cursor-pointer border border-white/5 hover:border-softPurple/40 h-80" onclick="openLightbox('https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&q=80&w=1200', 'Robotic Surgical Theatre')">
+                    <img src="https://images.unsplash.com/photo-1579684389782-64d84b5e901a?auto=format&fit=crop&q=80&w=600" alt="Surgical Operating Theatre" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent opacity-85"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="text-xs font-semibold text-softPurple uppercase tracking-widest">Robotics</span>
+                        <h4 class="font-display font-bold text-lg text-white mt-1">Surgical Operating Theatre</h4>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-3xl glass-panel group cursor-pointer border border-white/5 hover:border-softPurple/40 h-80" onclick="openLightbox('https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=1200', 'Aetheris Medical Pharmacy Reception')">
+                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&q=80&w=600" alt="Pharmacy" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent opacity-85"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="text-xs font-semibold text-softPurple uppercase tracking-widest">Automation</span>
+                        <h4 class="font-display font-bold text-lg text-white mt-1">Dispensation Pharmacy</h4>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-3xl glass-panel group cursor-pointer border border-white/5 hover:border-softPurple/40 h-80" onclick="openLightbox('https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=1200', 'High Definition Quantum MRI scanner')">
+                    <img src="https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&q=80&w=600" alt="MRI Scanner" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent opacity-85"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="text-xs font-semibold text-softPurple uppercase tracking-widest">Imaging</span>
+                        <h4 class="font-display font-bold text-lg text-white mt-1">Diagnostic MRI Complex</h4>
+                    </div>
+                </div>
+
+                <div class="relative overflow-hidden rounded-3xl glass-panel group cursor-pointer border border-white/5 hover:border-softPurple/40 h-80" onclick="openLightbox('https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&q=80&w=1200', 'Primary Clinical Complex Exterior')">
+                    <img src="https://images.unsplash.com/photo-1587351021759-3e566b6af7cc?auto=format&fit=crop&q=80&w=600" alt="Hospital Exterior" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                    <div class="absolute inset-0 bg-gradient-to-t from-blackBg via-blackBg/20 to-transparent opacity-85"></div>
+                    <div class="absolute bottom-6 left-6">
+                        <span class="text-xs font-semibold text-softPurple uppercase tracking-widest">Architecture</span>
+                        <h4 class="font-display font-bold text-lg text-white mt-1">Aetheris Medical Institute</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
